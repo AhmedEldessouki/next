@@ -3,24 +3,15 @@ import type {AppResponse} from '../../types/apiTypes'
 async function client<T>(path: string): Promise<AppResponse<T>> {
   const response: AppResponse<T> = {
     status: 'idle',
-    data: undefined,
-    error: undefined,
-  }
-  if(window){
-    const savedData = window.localStorage.getItem(path)
-    if (savedData) {
-      response.data = JSON.parse(savedData)
-      response.status = 'resolved'
-      return response
-    }
+    data: null,
+    error: null,
   }
   await fetch(`https://dummyapi.io/data/api${path}`, {
-    headers: {'app-id': `${process.env.REACT_APP_API_APP_ID}`},
+    headers: {'app-id': `61290853ccfd5643742d42fe`},
   })
     .then(async res => {
       const data = await res.json()
       response.data = data as T
-      window.localStorage.setItem(path, JSON.stringify(data))
       response.status = 'resolved'
     })
     .catch((err: Error) => {
