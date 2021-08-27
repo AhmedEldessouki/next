@@ -6,11 +6,13 @@ async function client<T>(path: string): Promise<AppResponse<T>> {
     data: undefined,
     error: undefined,
   }
-  const savedData = window.localStorage.getItem(path)
-  if (savedData) {
-    response.data = JSON.parse(savedData)
-    response.status = 'resolved'
-    return response
+  if(window){
+    const savedData = window.localStorage.getItem(path)
+    if (savedData) {
+      response.data = JSON.parse(savedData)
+      response.status = 'resolved'
+      return response
+    }
   }
   await fetch(`https://dummyapi.io/data/api${path}`, {
     headers: {'app-id': `${process.env.REACT_APP_API_APP_ID}`},
