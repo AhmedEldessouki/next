@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@font-face {
+  font-family: "Commissioner";
+  src: local("Commissioner"),
+    url("https://fonts.googleapis.com/css2?family=Commissioner:wght@400;500;700&display=swap")
+      format("ttf");
+}
+
+:root {
+  --primary-color-moderate: hsl(176, 50%, 47%);
+  --primary-color-dark: hsl(176, 72%, 28%);
+  --neutral-color-moderate: hsl(0, 0%, 0%);
+  --neutral-color-dark: hsl(0, 0%, 48%);
+}

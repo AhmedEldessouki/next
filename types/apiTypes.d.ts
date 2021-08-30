@@ -1,69 +1,45 @@
-type AppLocation = {
-  street: string
-  city: string
-  state: string
-  country: string
-  timezone: string
+type UserLocation = {
+  street: {
+    number: number
+    name: string
+    city: string
+    state: string
+    country: string
+    postcode: 65722
+  }
+  coordinates: {latitude: string; longitude: string}
+  timezone: {offset: string; description: string}
 }
 
-type User = {
-  id: string
-  title: string
-  firstName: string
-  lastName: string
+type UserLogIn = {
+  uuid: string
+  username: string
+  password: string
+  salt: string
+  md5: string
+  sha1: string
+  sha256: string
+}
+
+type UserType = {
   gender: string
+  name: {title: string; first: string; last: string}
+  location: UserLocation
   email: string
-  dateOfBirth: string
-  registerDate: string
+  login: UserLogIn
+  dob: {date: string; age: number}
+  registered: {date: string; age: number}
   phone: string
-  picture: string
-  location: AppLocation
-}
-
-type Post = {
-  text: string
-  image: string
-  likes: number
-  link: string
-  tags: Array<string>
-  publishDate: string
-  owner: User
-}
-
-type Tag = {
-  title: string
-}
-
-type AppComment = {
-  id: string
-  message: string
-  owner: User
-  publishDate: string
+  cell: string
+  id: {name: string; value: unknown}
+  picture: {
+    large: string
+    medium: string
+    thumbnail: string
+  }
+  nat: string
 }
 
 type StatusType = 'idle' | 'pending' | 'resolved' | 'rejected'
 
-type AppResponse<T> = {
-  status: StatusType
-  data?: T
-  error?: Error
-}
-
-type UserPage = {
-  data: Array<User>
-  limit: number
-  offset: number
-  page: number
-  total: number
-}
-
-export {
-  AppComment,
-  AppResponse,
-  AppLocation,
-  Post,
-  Tag,
-  User,
-  UserPage,
-  StatusType,
-}
+export {UserType, UserLogIn, StatusType}
