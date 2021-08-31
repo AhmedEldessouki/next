@@ -1,6 +1,7 @@
 import {GetStaticProps} from 'next'
 import Link from 'next/link'
 import React from 'react'
+import {useUser} from '../../context/userContext'
 import client from '../../src/utils/client'
 import type {StatusType, UserType} from '../../types/apiTypes'
 
@@ -13,12 +14,20 @@ const Static = ({
   error: Error
   status: StatusType
 }) => {
+  const {users, dispatch} = useUser()
   const [state, setState] = React.useState<{
     info: unknown
     results: Array<UserType>
   }>(() => {
     return JSON.parse(data)
   })
+
+  React.useEffect(() => {
+    if (users === '') {
+      dispatch(data)
+      console.log(users)
+    }
+  }, [users, dispatch])
   if (status === 'rejected') {
     return (
       <div>
@@ -26,7 +35,6 @@ const Static = ({
       </div>
     )
   }
-  console.log(JSON.parse(data), state)
   return (
     <div className="p-4 h-screen">
       <h1>Users </h1>

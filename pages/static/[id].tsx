@@ -1,55 +1,34 @@
 import {GetStaticProps} from 'next'
 import {useRouter} from 'next/dist/client/router'
 import React from 'react'
+import {useUser} from '../../context/userContext'
+import {UserType} from '../../types/apiTypes'
 
-function User({data}) {
-  const {query, isFallback} = useRouter()
-  console.log(JSON.parse(data), query)
-  const [user, setUser] = React.useState(() =>
-    JSON.parse(data).results.filter(item => item.login.uuid === query.id),
+function User() {
+  const {query, isFallback, replace, ...router} = useRouter()
+  const {users} = useUser()
+  console.log(
+    JSON.parse(users).results.filter(
+      (item: UserType) => item.login.uuid === query.id,
+    ),
   )
+  const [user, setUser] = React.useState<UserType>(() => {
+    return JSON.parse(users).results.filter(
+      (item: UserType) => item.login.uuid === query.id,
+    )[0]
+  })
+  React.useEffect(() => {
+    if (users === '') router.push('/static')
+    if (!users) {
+    }
+  }, [users])
+  console.log(JSON.parse(users), query, users)
   if (isFallback) return <span>loading...</span>
-  return <div>{JSON.stringify(user)}</div>
-}
-export async function getStaticPaths() {
-  const res = await fetch(`https://randomuser.me/api/?results=10&nat=us`, {})
-  const data = await res.json()
-
-  return {
-    // Only `/posts/1` and `/posts/2` are generated at build time
-    paths: [
-      ...data.results.reduce(
-        (acc, user) => [...acc, {params: {id: user.login.uuid}}],
-        [],
-      ),
-    ],
-    // Enable statically generating additional pages
-    // For example: `/posts/3`
-    fallback: true,
-  }
+  return (
+    <div>
+      <img src={user.picture.large} alt="" />
+    </div>
+  )
 }
 
-export const getStaticProps: GetStaticProps = async ctx => {
-  const response = {
-    status: 'idle',
-    data: null,
-    error: null,
-  }
-  await fetch(`https://randomuser.me/api/?results=10&nat=us`, {})
-    .then(async res => {
-      const data = await res.json()
-      response.data = data
-    })
-    .catch((err: Error) => {
-      response.status = 'rejected'
-      response.error = err
-    })
-  return {
-    props: {
-      data: JSON.stringify(response.data),
-      error: JSON.stringify(response.error),
-      status: response.status,
-    },
-  }
-}
 export default User
