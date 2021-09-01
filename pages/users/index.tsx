@@ -1,8 +1,7 @@
-import {GetStaticProps} from 'next'
 import Link from 'next/link'
 import React from 'react'
 import {useUser} from '../../context/userContext'
-import client from '../../src/utils/client'
+import type {GetStaticProps} from 'next'
 import type {StatusType, UserType} from '../../types/apiTypes'
 
 const Static = ({
@@ -14,8 +13,8 @@ const Static = ({
   error: Error
   status: StatusType
 }) => {
-  const {users, dispatch} = useUser()
-  const [state, setState] = React.useState<{
+  const {dispatch} = useUser()
+  const [state] = React.useState<{
     info: unknown
     results: Array<UserType>
   }>(() => {
@@ -23,11 +22,8 @@ const Static = ({
   })
 
   React.useEffect(() => {
-    if (users === '') {
-      dispatch(data)
-      console.log(users)
-    }
-  }, [users, dispatch])
+    dispatch(data)
+  }, [dispatch])
   if (status === 'rejected') {
     return (
       <div>
@@ -54,7 +50,7 @@ const Static = ({
                     alt={`${item.name?.first} ${item.name?.last}`}
                   />
                   <Link
-                    href={`/static/${item.login.uuid}`}
+                    href={`/users/${item.login.uuid}`}
                   >{`${item.name?.first} ${item.name?.last}`}</Link>
                 </div>
                 <div className="flex gap-1">
@@ -77,7 +73,8 @@ export const getStaticProps: GetStaticProps = async ctx => {
     data: null,
     error: null,
   }
-  await fetch(`https://randomuser.me/api/?results=10&nat=us`, {})
+
+  await fetch(`http://localhost:3000/api/users`)
     .then(async res => {
       const data = await res.json()
       response.data = data

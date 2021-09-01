@@ -5,7 +5,7 @@ type UserLocation = {
     city: string
     state: string
     country: string
-    postcode: 65722
+    postcode: number
   }
   coordinates: {latitude: string; longitude: string}
   timezone: {offset: string; description: string}

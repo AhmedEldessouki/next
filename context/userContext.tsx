@@ -2,22 +2,22 @@ import {userInfo} from 'node:os'
 import React from 'react'
 
 type UserContextType = {
-  users: string
+  users: string | null
   dispatch: React.Dispatch<any>
 } | null
 
 const UserContext = React.createContext<UserContextType>(null)
 UserContext.displayName = 'User Context'
 
-const initialState = ''
+const initialState = null
 
 const reducer = (prevState: string, nextState: string) => {
-  console.log(prevState, nextState)
   return nextState
 }
 
 function UserProvider({children}) {
   const [state, dispatch] = React.useReducer(reducer, initialState)
+
   return (
     <UserContext.Provider value={{users: state, dispatch}}>
       {children}

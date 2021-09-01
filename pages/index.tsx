@@ -12,10 +12,9 @@ function Home() {
         </React.Fragment>
       </Head>
       <nav>
-        <Link href="/static">Static</Link>
+        <Link href="/users">users</Link>
       </nav>
       <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
-        <Link href="/static">Static</Link>
         It's Runnin
       </main>
     </div>
