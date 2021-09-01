@@ -1,4 +1,3 @@
-import {userInfo} from 'node:os'
 import React from 'react'
 
 type UserContextType = {

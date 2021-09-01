@@ -13,6 +13,7 @@ function Home() {
       </Head>
       <nav>
         <Link href="/users">users</Link>
+        <Link href="/usersSsr">users SSR</Link>
       </nav>
       <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
         It's Runnin
